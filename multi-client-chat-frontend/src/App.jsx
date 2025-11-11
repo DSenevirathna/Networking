@@ -363,31 +363,78 @@ export default function App() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-gray-900">
+    <div className="h-screen flex flex-col" style={{ background: 'linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 100%)' }}>
       {/* Chat Header */}
-      <div className="bg-gradient-to-r from-red-900 via-red-800 to-gray-900 text-white px-6 py-4 shadow-2xl border-b border-red-700">
+      <div 
+        className="text-white px-6 py-4 shadow-2xl"
+        style={{
+          background: 'rgba(0, 0, 0, 0.3)',
+          backdropFilter: 'blur(20px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+          borderBottom: '1px solid rgba(77, 168, 255, 0.2)'
+        }}
+      >
         <div className="flex items-center justify-between">
-          <h2 className="text-3xl font-bold tracking-wider">
-            <span className="text-red-500">Chat</span>
-            <span className="text-green-500">IT</span>
+          <h2 className="text-3xl font-bold tracking-wider" style={{ color: '#4da8ff' }}>
+            💬 Chat
           </h2>
           <div className="flex items-center gap-4">
             <button
               onClick={() => setShowWhiteboard(true)}
-              className="bg-green-600 hover:bg-green-700 px-5 py-2 rounded-full text-sm font-bold transition-all shadow-lg hover:shadow-green-500/50 flex items-center gap-2"
+              className="px-5 py-2 rounded-full text-sm font-bold transition-all shadow-lg flex items-center gap-2"
+              style={{
+                background: 'linear-gradient(135deg, #2196F3 0%, #1976D2 100%)',
+                boxShadow: '0 4px 15px 0 rgba(33, 150, 243, 0.4)'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.transform = 'translateY(-2px)';
+                e.target.style.boxShadow = '0 6px 25px 0 rgba(33, 150, 243, 0.6)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.boxShadow = '0 4px 15px 0 rgba(33, 150, 243, 0.4)';
+              }}
               title="Open Whiteboard"
             >
               🎨 Whiteboard
             </button>
-            <span className="bg-gray-800/80 px-4 py-2 rounded-full text-sm font-medium border border-green-500/30">
+            <span 
+              className="px-4 py-2 rounded-full text-sm font-medium"
+              style={{
+                background: 'rgba(77, 168, 255, 0.15)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(77, 168, 255, 0.3)',
+                color: '#4da8ff'
+              }}
+            >
               👤 {username}
             </span>
-            <span className="bg-gray-800/80 px-4 py-2 rounded-full text-sm font-medium border border-red-500/30">
+            <span 
+              className="px-4 py-2 rounded-full text-sm font-medium"
+              style={{
+                background: 'rgba(77, 168, 255, 0.15)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(77, 168, 255, 0.3)',
+                color: '#4da8ff'
+              }}
+            >
               {useSSL ? '🔒 SSL' : '🔓 No SSL'}
             </span>
             <button
               onClick={handleDisconnect}
-              className="bg-red-600 hover:bg-red-700 px-5 py-2 rounded-full text-sm font-bold transition-all shadow-lg hover:shadow-red-500/50"
+              className="px-5 py-2 rounded-full text-sm font-bold transition-all shadow-lg"
+              style={{
+                background: 'linear-gradient(135deg, #e74c3c 0%, #c0392b 100%)',
+                boxShadow: '0 2px 10px rgba(231, 76, 60, 0.3)'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.transform = 'translateY(-2px)';
+                e.target.style.boxShadow = '0 6px 20px rgba(231, 76, 60, 0.5)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.boxShadow = '0 2px 10px rgba(231, 76, 60, 0.3)';
+              }}
             >
               Disconnect
             </button>
@@ -396,7 +443,15 @@ export default function App() {
       </div>
 
       {error && (
-        <div className="bg-red-900/50 border-b border-red-600 text-red-200 px-6 py-3 text-sm">
+        <div 
+          className="px-6 py-3 text-sm"
+          style={{
+            background: 'rgba(231, 76, 60, 0.2)',
+            backdropFilter: 'blur(10px)',
+            borderBottom: '1px solid rgba(231, 76, 60, 0.4)',
+            color: '#ff6b6b'
+          }}
+        >
           ⚠️ {error}
         </div>
       )}
@@ -423,32 +478,80 @@ export default function App() {
         </div>
 
         {/* Users Panel - Moved to Right */}
-        <div className="w-64 bg-gray-800 border-l border-red-900 flex flex-col">
-          <div className="px-4 py-3 border-b border-red-900 bg-gradient-to-r from-gray-900 to-gray-800">
-            <h4 className="font-bold text-green-400 flex items-center gap-2">
-              <span className="text-green-500">●</span>
+        <div 
+          className="w-64 flex flex-col"
+          style={{
+            background: 'rgba(255, 255, 255, 0.02)',
+            backdropFilter: 'blur(20px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+            borderLeft: '1px solid rgba(77, 168, 255, 0.2)'
+          }}
+        >
+          <div 
+            className="px-4 py-3"
+            style={{
+              background: 'rgba(0, 0, 0, 0.2)',
+              borderBottom: '1px solid rgba(77, 168, 255, 0.2)'
+            }}
+          >
+            <h4 className="font-bold flex items-center gap-2" style={{ color: '#4da8ff', fontSize: '13px', letterSpacing: '0.5px', textTransform: 'uppercase' }}>
+              <span style={{ color: '#4ade80', filter: 'drop-shadow(0 0 2px #4ade80)' }}>●</span>
               Online Users ({users.length})
             </h4>
           </div>
           <div className="flex-1 overflow-y-auto p-2">
             {users.length === 0 ? (
-              <div className="text-center text-gray-500 text-sm py-4">
+              <div className="text-center text-sm py-4" style={{ color: '#666', fontStyle: 'italic' }}>
                 No users online
               </div>
             ) : (
               users.map((u) => (
                 <div
                   key={u}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg mb-1 transition-all ${
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg mb-1 transition-all cursor-pointer"
+                  style={
                     u === username
-                      ? 'bg-green-900/30 border border-green-500/50'
-                      : 'hover:bg-gray-700/50'
-                  }`}
+                      ? {
+                          background: 'rgba(33, 150, 243, 0.2)',
+                          border: '1.5px solid rgba(77, 168, 255, 0.4)',
+                          color: '#64b5f6',
+                          fontWeight: 600,
+                          boxShadow: '0 2px 10px rgba(77, 168, 255, 0.2)'
+                        }
+                      : {
+                          background: 'rgba(77, 168, 255, 0.08)',
+                          backdropFilter: 'blur(10px)',
+                          border: '1px solid rgba(77, 168, 255, 0.2)',
+                          color: '#4da8ff'
+                        }
+                  }
+                  onMouseEnter={(e) => {
+                    if (u !== username) {
+                      e.currentTarget.style.background = 'rgba(77, 168, 255, 0.15)';
+                      e.currentTarget.style.transform = 'translateX(4px)';
+                      e.currentTarget.style.borderColor = 'rgba(77, 168, 255, 0.4)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (u !== username) {
+                      e.currentTarget.style.background = 'rgba(77, 168, 255, 0.08)';
+                      e.currentTarget.style.transform = 'translateX(0)';
+                      e.currentTarget.style.borderColor = 'rgba(77, 168, 255, 0.2)';
+                    }
+                  }}
                 >
-                  <span className="text-green-500 text-lg">●</span>
-                  <span className="text-sm font-medium text-gray-200">{u}</span>
+                  <span style={{ color: '#4ade80', fontSize: '10px', filter: 'drop-shadow(0 0 2px #4ade80)' }}>●</span>
+                  <span className="text-sm font-medium">{u}</span>
                   {u === username && (
-                    <span className="ml-auto text-xs text-green-400 font-medium bg-green-900/50 px-2 py-1 rounded">
+                    <span 
+                      className="ml-auto text-xs font-medium px-2 py-1 rounded"
+                      style={{
+                        color: '#4da8ff',
+                        background: 'rgba(77, 168, 255, 0.15)',
+                        fontSize: '10px',
+                        fontWeight: 600
+                      }}
+                    >
                       You
                     </span>
                   )}

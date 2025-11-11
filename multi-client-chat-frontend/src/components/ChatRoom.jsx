@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import "./ChatRoom.css";
 
 export default function ChatRoom() {
   const [messages, setMessages] = useState([]);
@@ -143,83 +144,64 @@ export default function ChatRoom() {
 
   if (!isConnected) {
     return (
-      <div style={{ padding: 20, fontFamily: "Arial" }}>
-        <h2>💬 Welcome to WebSocket Chat</h2>
-        <input
-          type="text"
-          placeholder="Enter your username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          style={{ marginRight: 10 }}
-        />
-        <button onClick={handleJoin}>Join Chat</button>
+      <div className="login-container">
+        <div className="login-box">
+          <h2>💬 Welcome to WebSocket Chat</h2>
+          <p className="subtitle">Enter your username to join</p>
+          <input
+            type="text"
+            placeholder="Enter your username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && handleJoin()}
+            className="login-input"
+            autoFocus
+          />
+          <button onClick={handleJoin} className="join-button">
+            Join Chat
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div style={{ padding: 20, fontFamily: "Arial" }}>
-      <h2>💬 WebSocket Chat Room</h2>
-      <p>
-        Connected as: <strong>{username}</strong>
-      </p>
+    <div className="chat-container">
+      <div className="chat-header">
+        <h2>💬 WebSocket Chat Room</h2>
+        <div className="header-info">
+          <div className="username-badge">
+            Connected as: <strong>{username}</strong>
+          </div>
+          <button onClick={handleDisconnect} className="disconnect-button">
+            Disconnect
+          </button>
+        </div>
+      </div>
 
-      <div style={{ display: "flex", gap: 20 }}>
-        <div style={{ minWidth: 150 }}>
-          <h4>Users</h4>
-          <div
-            style={{
-              border: "1px solid #ccc",
-              padding: 8,
-              height: 200,
-              overflowY: "auto",
-              background: "#ffffffaa",
-            }}
-          >
+      <div className="chat-main">
+        <div className="users-panel">
+          <h4>Users Online</h4>
+          <div className="users-list">
             {users.length === 0 ? (
-              <div style={{ color: "#666" }}>No users</div>
+              <div className="no-users">No users</div>
             ) : (
               users.map((u) => (
-                <div key={u} style={{ padding: "4px 0" }}>
+                <div 
+                  key={u} 
+                  className={`user-item ${u === username ? 'current-user' : ''}`}
+                >
+                  <span className="user-status">●</span>
                   {u}
+                  {u === username && <span className="you-badge">(You)</span>}
                 </div>
               ))
             )}
           </div>
-          <div style={{ marginTop: 8 }}>
-            <button
-              onClick={handleDisconnect}
-              disabled={!isConnected}
-              style={{ marginRight: 8 }}
-            >
-              Disconnect
-            </button>
-            {!isConnected && (
-              <button
-                onClick={() => {
-                  if (!username.trim())
-                    return alert("Enter username to reconnect");
-                  shouldReconnect.current = true;
-                  connectWebSocket(username);
-                }}
-              >
-                Reconnect
-              </button>
-            )}
-          </div>
         </div>
 
-        <div style={{ flex: 1 }}>
-          <div
-            style={{
-              border: "1px solid #ccc",
-              padding: 10,
-              height: 400,
-              overflowY: "auto",
-              marginBottom: 10,
-              backgroundColor: "#181717ff",
-            }}
-          >
+        <div className="messages-panel">
+          <div className="messages-container">
             {messages.map((msg, i) => {
               const isOwnMessage = msg.payload?.username === username;
               const isSystem = msg.type === "SYSTEM";
@@ -227,49 +209,21 @@ export default function ChatRoom() {
               return (
                 <div
                   key={i}
-                  style={{
-                    display: "flex",
-                    justifyContent: isSystem
-                      ? "center"
-                      : isOwnMessage
-                      ? "flex-end"
-                      : "flex-start",
-                    marginBottom: 8,
-                  }}
+                  className={`message-wrapper ${
+                    isSystem ? 'system' : isOwnMessage ? 'own' : 'other'
+                  }`}
                 >
-                  <div
-                    style={{
-                      maxWidth: "70%",
-                      backgroundColor: isSystem
-                        ? "transparent"
-                        : isOwnMessage
-                        ? "#6dd41fff"
-                        : "#181717ff",
-                      border: isSystem ? "none" : "1px solid #ccc",
-                      borderRadius: 10,
-                      padding: "8px 12px",
-                      textAlign: isSystem ? "center" : "left",
-                      boxShadow: isSystem
-                        ? "none"
-                        : "0 1px 3px rgba(0, 0, 0, 0.1)",
-                    }}
-                  >
+                  <div className="message-bubble">
                     {isSystem ? (
-                      <i>{msg.payload?.text}</i>
+                      <span className="message-text">{msg.payload?.text}</span>
                     ) : (
                       <>
                         {!isOwnMessage && (
-                          <div
-                            style={{
-                              fontWeight: "bold",
-                              color: "#007bff",
-                              marginBottom: 4,
-                            }}
-                          >
+                          <div className="message-sender">
                             {msg.payload?.username}
                           </div>
                         )}
-                        <div>{msg.payload?.text}</div>
+                        <div className="message-text">{msg.payload?.text}</div>
                       </>
                     )}
                   </div>
@@ -278,35 +232,25 @@ export default function ChatRoom() {
             })}
             <div ref={messagesEndRef} />
           </div>
-        </div>
-      </div>
 
-      <div style={{ display: "flex" }}>
-        <input
-          type="text"
-          placeholder="Type a message..."
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          style={{
-            flex: 1,
-            marginRight: 10,
-            padding: 10,
-            borderRadius: 5,
-            border: "1px solid #ccc",
-          }}
-        />
-        <button
-          onClick={sendMessage}
-          style={{
-            backgroundColor: "#007bff",
-            color: "white",
-            border: "none",
-            borderRadius: 5,
-            padding: "10px 20px",
-          }}
-        >
-          Send
-        </button>
+          <div className="message-input-container">
+            <input
+              type="text"
+              placeholder="Type a message..."
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              onKeyPress={(e) => e.key === "Enter" && sendMessage()}
+              className="message-input"
+            />
+            <button
+              onClick={sendMessage}
+              disabled={!text.trim()}
+              className="send-button"
+            >
+              Send
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
