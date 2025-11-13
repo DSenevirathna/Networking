@@ -123,7 +123,7 @@ public class ChatServer {
             // Enable TLS 1.2 and 1.3
             sslContextFactory.setIncludeProtocols("TLSv1.2", "TLSv1.3");
 
-            // SSL Connector Configuration
+            // SSL Connector  Configuration
             HttpConfiguration httpsConfig = new HttpConfiguration();
             httpsConfig.setSecureScheme("https");
             httpsConfig.setSecurePort(port);
